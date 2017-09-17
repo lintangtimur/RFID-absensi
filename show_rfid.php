@@ -1,9 +1,13 @@
 <?php
 header("Content-type:application/json");
-require "core/Database/Connection.php";
-$con = Connection::Connect();
-$select = "SELECT * FROM rfid";
-$result = $con->prepare($select);
+
+$con = require "core/bootstrap.php";
+$qb = new QueryBuilder();
+$result = $con->prepare(
+  $qb->select('*')
+  ->from('rfid')
+  ->result()
+);
 $result->execute();
 $rowCount = $result->rowCount();
 $li = "";

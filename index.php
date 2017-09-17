@@ -32,10 +32,11 @@
         <h2>Data yang telah terinput | Total: <d id="jumlahRow"></d></h2>
         <ul>
           <?php
-          require "core/Database/Connection.php";
-          $con = Connection::Connect();
-          $select = "SELECT * FROM rfid";
-          $result = $con->prepare($select);
+          $con = require "core/bootstrap.php";
+          $qb = new QueryBuilder();
+          $result = $con->prepare(
+            $qb->select('*')->from('rfid')->result()
+          );
           $result->execute();
           while ($row = $result->fetch()): ?>
           <li><?=$row['norf']; ?></li>
