@@ -1,7 +1,12 @@
 $(document).ready(function() {
+
+  // Input field langsung fokus
   $('#inputs').focus();
+
+  // jika ada perubahan di input field [ENTER], akan mentrigger
   $("input").change(function() {
     var id = $('#inputs').val();
+
     $.ajax({
         url: 'input.php',
         type: 'post',
