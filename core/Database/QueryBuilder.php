@@ -1,8 +1,9 @@
 <?php
+require "../Interface/IDatabase.php";
 /**
 * Pembuatan Query
 */
-class QueryBuilder
+class QueryBuilder implements IQuery
 {
     private $selectables = array();
     private $table;
@@ -48,7 +49,7 @@ class QueryBuilder
 
         return $this;
     }
-    
+
     /**
      * And Clause
      * @param  string $whereAnd And condition
