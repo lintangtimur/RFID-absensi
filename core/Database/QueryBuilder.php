@@ -12,7 +12,6 @@ class QueryBuilder implements IQuery
     private $limit;
     private $joinClause;
     private $onClause;
-    protected $bajingan;
 
     /**
      * select clause
