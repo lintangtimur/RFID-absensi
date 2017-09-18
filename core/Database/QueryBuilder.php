@@ -1,5 +1,5 @@
 <?php
-require "Interface/IDatabase.php";
+require "Interface/IQuery.php";
 /**
 * Pembuatan Query
 */
