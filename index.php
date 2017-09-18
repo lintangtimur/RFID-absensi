@@ -33,14 +33,11 @@
         <ul>
           <?php
           $con = require "core/bootstrap.php";
-          $qb = new QueryBuilder();
-          $result = $con->prepare(
-            $qb->select('*')->from('rfid')->result()
-          );
-          $result->execute();
-          while ($row = $result->fetch()): ?>
-          <li><?=$row['norf']; ?></li>
-        <?php endwhile; ?>
+          $qb = new QueryBuilder($con);
+          $rfids = $qb->selectAll('rfid');
+          foreach ($rfids as $rfid):?>
+          <li><?=$rfid->norf; ?></li>
+        <?php endforeach; ?>
           </ul>
        </ul>
       </div>

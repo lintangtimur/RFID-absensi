@@ -1,13 +1,14 @@
 <?php
-require "core/Database/Connection.php";
+$con = require "core/bootstrap.php";
 
-$con = Connection::connect();
-$id = $_POST['id'];
-$sql = "INSERT INTO rfid (id, norf) values ('',:id)";
-$result = $con->prepare($sql);
-$result->execute([
-  ":id" => $id
+$qb = new QueryBuilder($con);
+
+//Insert ke dalam table
+$result = $qb->insert('rfid', [
+  "id" => '',
+  "norf" => $_POST['id']
 ]);
+
 if (!empty($result)) {
     echo "SUKSES";
 }

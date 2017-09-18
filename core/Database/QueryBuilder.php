@@ -1,19 +1,105 @@
 <?php
 require "Interface/IQuery.php";
+
 /**
 * Pembuatan Query
 */
 class QueryBuilder implements IQuery
 {
-    private $selectables = array();
+    /**
+   * select clause
+   * @var array
+   */
+    private $selectables = [];
+
+    /**
+     * table clause
+     * @var string
+     */
     private $table;
+
+    /**
+     * where clause
+     * @var string
+     */
     private $whereClause;
+
+    /**
+     * AND Clause
+     * @var string
+     */
     private $whereAndClause;
+
+    /**
+     * limit
+     * @var int
+     */
     private $limit;
+
+    /**
+     * JOIN
+     * @var string
+     */
     private $joinClause;
+
+    /**
+     * JOIN ON
+     * @var string
+     */
     private $onClause;
 
     /**
+     * PDO Instance
+     * @var PDO
+     */
+    private $pdo;
+
+    /**
+     * @param PDO $pdo
+     */
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+    /**
+     * [selectAll description]
+     * @param  string $table nama table
+     * @return object
+     */
+    public function selectAll($table)
+    {
+        $result = $this->pdo->prepare("SELECT * FROM {$table}");
+        $result->execute();
+
+        return $result->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    /**
+     * INSERT ke dalam table
+     * @param  string $table     nama table
+     * @param  array $parameter parameter table berupa kolom => value
+     * @return object
+     */
+    public function insert($table, array $parameter)
+    {
+
+        // $sql = "INSERT INTO rfid (id, norf) values ('',:id)";
+        $sql = sprintf(
+          'insert into %s (%s) values (%s)',
+          $table,
+          implode(', ', array_keys($parameter)),
+          ':'.implode(', :', array_keys($parameter))
+        );
+
+        // "insert into rfid (id, norf) values :id, :norf
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($parameter);
+
+        return $stmt;
+    }
+
+      /**
      * select clause
      * @param  string $select select * clause
      * @return object        this object
