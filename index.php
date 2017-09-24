@@ -29,6 +29,7 @@
         </div>
       </div>
       <div class="col-md-6">
+        sad
         <h2>Data yang telah terinput | Total: <d id="jumlahRow"></d></h2>
         <ul>
           <?php
