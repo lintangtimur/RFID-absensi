@@ -78,7 +78,7 @@ class QueryBuilder implements IQuery
     /**
      * INSERT ke dalam table
      * @param  string $table     nama table
-     * @param  array $parameter parameter table berupa kolom => value
+     * @param  array $parameter parameter table berupa [kolom => value]
      * @return object
      */
     public function insert($table, array $parameter)
