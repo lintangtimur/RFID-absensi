@@ -3,6 +3,7 @@ require "Interface/IQuery.php";
 
 /**
 * Pembuatan Query
+* @author stelin lintangtimur915@gmail.com
 */
 class QueryBuilder implements IQuery
 {
@@ -65,7 +66,7 @@ class QueryBuilder implements IQuery
     /**
      * [selectAll description]
      * @param  string $table nama table
-     * @return object
+     * @return object PDO::FETCH_CLASS
      */
     public function selectAll($table)
     {
@@ -83,7 +84,6 @@ class QueryBuilder implements IQuery
      */
     public function insert($table, array $parameter)
     {
-
         // $sql = "INSERT INTO rfid (id, norf) values ('',:id)";
         $sql = sprintf(
           'insert into %s (%s) values (%s)',
@@ -94,6 +94,7 @@ class QueryBuilder implements IQuery
 
         // "insert into rfid (id, norf) values :id, :norf
         $stmt = $this->pdo->prepare($sql);
+
         $stmt->execute($parameter);
 
         return $stmt;
@@ -169,6 +170,23 @@ class QueryBuilder implements IQuery
         $this->joinClause = $join;
 
         return $this;
+    }
+
+    /**
+     * Membuat query secara mentah, dan dieksekusi
+     * @param  string $query     query yang akan dieksekusi
+     * @param  string $parameter parameter dipisahkan dengan koma
+     * @return object
+     */
+    public function RAW($query, $parameter)
+    {
+        $result = $this->pdo->prepare($query);
+        $result->execute([
+          $parameter
+        ]);
+
+
+        return $result->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
