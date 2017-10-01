@@ -20,28 +20,16 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="form-group">
           <label for="INPUTAN">Number</label>
           <input type="text" class="form-control" id="inputs" name="" value="">
-          <p class="help-block">RFID akan masuk ke sini</p>
+          <p class="help-block">RFID Absensi</p>
           <p id="tampilMessage"></p>
+          <div class="alert" role="alert"></div>
         </div>
       </div>
-      <div class="col-md-6">
-        sad
-        <h2>Data yang telah terinput | Total: <d id="jumlahRow"></d></h2>
-        <ul>
-          <?php
-          $con = require "core/bootstrap.php";
-          $qb = new QueryBuilder($con);
-          $rfids = $qb->selectAll('rfid');
-          foreach ($rfids as $rfid):?>
-          <li><?=$rfid->norf; ?></li>
-        <?php endforeach; ?>
-          </ul>
-       </ul>
-      </div>
+
     </div>
   </div>
 
