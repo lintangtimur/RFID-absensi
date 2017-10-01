@@ -15,18 +15,23 @@ $(document).ready(function() {
         }
       })
       .done(function(data) {
-        $('ul').load("show_rfid.php", function(data) {
-          var jsonObj = JSON.parse(data);
-          $('ul').html(jsonObj.li);
-          $('#jumlahRow').html(jsonObj.jumlahBaris);
-        });
+        console.log(data);
+
+        // hapus alert danger dan sukses agar bisa bergantian class
+        $('.alert').removeClass('alert-danger alert-success');
+
+        if (data == "err") {
+          $('.alert').addClass('alert-danger').html("RFID belum terdaftar di dalam system kami: " + "<b>" + id + "</b>");
+        } else {
+          $('.alert').addClass('alert-success').html(data);
+        }
+
+        $('#inputs').val(""); //Mengkosongkan input field
+        $('#inputs').focus(); //mengembalikan cursor ke input field
+
       })
       .fail(function(data) {
         console.log(data);
       });
-
-    $('#tampilMessage').html("<b>RFID SUKSES</b> " + id);
-    $('#inputs').focus();
   });
-
 });
