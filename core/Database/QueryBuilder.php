@@ -176,7 +176,7 @@ class QueryBuilder implements IQuery
      * Membuat query secara mentah, dan dieksekusi
      * @param  string $query     query yang akan dieksekusi
      * @param  string $parameter parameter dipisahkan dengan koma
-     * @return object
+     * @return array
      */
     public function RAW($query, $parameter)
     {
