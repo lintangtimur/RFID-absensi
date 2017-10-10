@@ -4,6 +4,7 @@ header("Content-type:application/json");
 $con = require "core/bootstrap.php";
 $qb = new QueryBuilder($con);
 
+
 $result = $qb->selectAll('rfid');
 $rowCount = count($result);
 $li = "";

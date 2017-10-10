@@ -16,48 +16,52 @@
   </head>
   <body>
     <?php require "partial/nav.php"; ?>
-
     <div class="container">
-  <!-- Content here -->
-<h2>Daftar <small class="text-muted">Rekap Absen Mahasiswa IKOM</small></h2>
-  <table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th>#</th>
-      <th>Nama</th>
-      <th>NIM</th>
-      <th>Hari</th>
-      <th>Mata Kuliah</th>
-      <th>Waktu Absen</th>
-    </tr>
-  </thead>
-  <tbody>
     <?php
     $con = require "core/bootstrap.php";
     require "vendor/autoload.php";
     use Carbon\Carbon;
 
     $qb = new QueryBuilder($con);
-    $table = "<tr>";
-    $i = 1;
-    $hasil = $qb->selectAll('rekap_absen');
-    $hasil = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
-    FROM siswa
-    INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf", "");
-
-    foreach ($hasil as $index => $value) {
-        $date = Carbon::parse($value->tanggal_absen, 'Asia/Jakarta');
-        $table .= "<td>$i</td>";
-        $table .= "<td>$value->nama</td>";
-        $table .= "<td>$value->makul_absen</td>";
-        $table .= "<td>".$date->diffForHumans()."</td>";
-        $table .= "</tr>";
-        $i++;
+    $jadwal = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
+        FROM siswa
+        INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf
+        GROUP BY makul_absen", "");
+    foreach ($jadwal as $index => $value) {
+        $rekabAbsen = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
+        FROM siswa
+        INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf
+        AND rekap_absen.makul_absen = ?", "$value->makul_absen");
+        echo "<h2>{$value->makul_absen}</h2>";
+        $i = 1;
+        $table = "<table class=\"table\">
+        <thead class=\"thead-inverse\">
+          <tr>
+            <th>#</th>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Jam</th>
+            <th>History</th>
+          </tr>
+        </thead>
+        <tbody>";
+        foreach ($rekabAbsen as $key => $nilai) {
+            $date = Carbon::parse($nilai->tanggal_absen, 'Asia/Jakarta');
+            $table .= "<tr>";
+            $table .= "<td>$i</td>";
+            $table .= "<td>$nilai->nama</td>";
+            $table .= "<td>$nilai->NIM</td>";
+            $table .= "<td>".$date->toDayDateTimeString()."</td>";
+            $table .= "<td>".$date->diffForHumans()."</td>";
+            $table .= "</tr>";
+            $i++;
+        }
+        $table .= "
+        </tbody>
+      </table>";
+        echo $table;
     }
-    echo $table;
     ?>
-  </tbody>
-</table>
 </div>
     <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js"></script>
