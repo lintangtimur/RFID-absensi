@@ -66,10 +66,6 @@
 			</div>
 		</div>
 
-
-
-
-
 		<table class="table table-striped table-responsive">
 			<thead>
 				<tr>
