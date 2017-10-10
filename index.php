@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Perangkat Cerdas RFID</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.1.0/octicons.min.css">
 
   <!--[if lt IE 9]>
@@ -17,7 +17,7 @@
 </head>
 
 <body>
-
+  <?php require "partial/nav.php"; ?>
   <div class="container">
     <div class="row">
       <div class="col-md-6">
@@ -29,7 +29,6 @@
           <div class="alert" role="alert"></div>
         </div>
       </div>
-
     </div>
   </div>
 
