@@ -53,7 +53,7 @@ if (isset($_POST['id'])) {
         }
 
         //Yang akan ditampilkan
-        $formatTampilan = "<b>Nama:</b> %s, <b>Jam Absen:</b> %s, %s, Makul: %s";
+        $formatTampilan = "<b>Nama:</b> %s, <b>Jam Absen:</b> %s, %s, <b>Makul:</b> %s";
         $rekapAbsen = $qb->insert('rekap_absen', [
           'id' => '',
           'norf' => $id,

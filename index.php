@@ -1,41 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-<!-- stelindb -->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Perangkat Cerdas RFID</title>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.1.0/octicons.min.css">
-
-  <!--[if lt IE 9]>
-      <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-
+<html>
 <body>
-  <?php require "partial/nav.php"; ?>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="INPUTAN">Number</label>
-          <input type="text" class="form-control" id="inputs" name="" value="">
-          <p class="help-block">RFID Absensi</p>
-          <p id="tampilMessage"></p>
-          <div class="alert" role="alert"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<?php require "partial/nav.php"; ?>
+	<div class="container"><span class="float-md-right"><i class="fa fa-clock-o" aria-hidden="true"></i><st id="time"></st></span>
+		<h2 class="text-primary mt-4">Put Your RFID Card to Your Scanner </h2>
+
+		<div class="form-group">
+			<label for="rfidnumber">RFID Tag Number</label>
+			<input type="text" class="form-control" id="inputs" aria-describedby="rfidnumber" placeholder="RFID Number will shown here">
+			<small id="rfidnumber" class="form-text text-muted">This System Automatically Record Your Abscence</small>
+		</div>
+
+		<div class="container mb-4">
+			<h3 id="classInformation"></h3>
+			<div class="p-3 mb-2 text-white" id="tampilMessage">
+				<!-- <b>Name</b> : Daniel Aditama <b>Course</b> : ERP Planning <b>Date/Time</b> : Mon,9-10-17/07:59:59 <b>Status</b>: Early -->
+			</div>
+			<div class="alert" role="alert"></div>
+		</div>
+
+		<div class="container">
+			<?php
+            require "vendor/autoload.php";
+            $con = require "core/bootstrap.php";
+            use Carbon\Carbon;
+
+            $qb = new QueryBuilder($con);
+            $HARI = [
+                   0 => "Minggu",
+                   1 => "Senin",
+                   2 => "Selasa",
+                   3 => "Rabu",
+                   4 => "Kamis",
+                   5 => "Jumat",
+                   6 => "Sabtu"
+                 ];
+            $sekarang = Carbon::now('Asia/Jakarta')->dayOfWeek;
+            $hasil = $qb->RAW("SELECT * from jadwal where hari = ?", $HARI[$sekarang]);
+             ?>
+			<div class="row">
+				<div class="col-md-2">
+<h2> <?=$HARI[$sekarang]; ?> </h2>
+				</div>
+				<div class="col-md-10">
+					<?php
+                    $cariMakulabsen = $qb->RAW("SELECT * FROM jadwal where hari = ?", "Selasa");
+                    foreach ($cariMakulabsen as $key => $value) {
+                        $mulai = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->hour;
+                        $mulaiMenit = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->addminutes(15);
+
+                        $akhir = Carbon::parse($value->jam_akhir, 'Asia/Jakarta')->hour;
+                        $sekarang = Carbon::now('Asia/Jakarta')->hour ;
 
 
-  <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  <script src="asset/js/data.js"></script>
-  <script src="https://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+                        if ($sekarang > $mulai && $sekarang < $akhir) { //10 > 8 && 10 < 12
+                            $makul = "<span class=\"badge badge-success float-md-right\">Available</span>";
+                            break;
+                        } else {
+                            $makul = "<span class=\"badge badge-danger float-md-right\">Not Available</span>";
+                        }
+                    }
+                    echo "<h2>{$makul}</h2>";
+                     ?>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<table class="table table-striped table-responsive">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Mata kuliah</th>
+					<th>Jam mulai</th>
+					<th>Jam berakhir</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+        $i = 1;
+        foreach ($hasil as $key => $value):?>
+				<tr>
+					<th><?= $i?></th>
+					<td><?= $value->makul;?></td>
+					<td><?= $value->jam_mulai;?></td>
+					<td><?= $value->jam_mulai;?></td>
+				</tr>
+			<?php $i++;endforeach; ?>
+			</tbody>
+		</table>
+
+	</div>
+	<?php require "partial/footer.php"; ?>
+	<script type="text/javascript">
+		var timestamp = "<?=date('H:i:s');?>";
+
+		function updateTime() {
+			$('#time').html(Date(timestamp));
+			timestamp++;
+		}
+		$(function() {
+			setInterval(updateTime, 1000);
+		});
+	</script>
 </body>
 
 </html>

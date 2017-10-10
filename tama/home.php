@@ -44,6 +44,7 @@
 				<b>Name</b> : Daniel Aditama <b>Course</b> : ERP Planning <b>Date/Time</b> : Mon,9-10-17/07:59:59 <b>Status</b>: Early
 				<!-- kalo wes lewat status Late-->
 			</div>
+			<div class="alert" role="alert"></div>
 		</div>
 		<h2> Senin</h2>
 
@@ -74,7 +75,8 @@
 
 	</div>
 	<script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="asset/js/data.js"></script>
+  <script src="https://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var timestamp = "<?=date('H:i:s');?>";
 
