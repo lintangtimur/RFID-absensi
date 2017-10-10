@@ -3,6 +3,7 @@ require "Interface/IQuery.php";
 
 /**
 * Pembuatan Query
+* Berbagai clause dan method yang dapat mempercepat eksekusi query
 * @author stelin lintangtimur915@gmail.com
 */
 class QueryBuilder implements IQuery
@@ -103,7 +104,7 @@ class QueryBuilder implements IQuery
       /**
      * select clause
      * @param  string $select select * clause
-     * @return object        this object
+     * @return $this        this object
      */
     public function select($select)
     {
@@ -115,7 +116,7 @@ class QueryBuilder implements IQuery
     /**
      * from clause
      * @param  string $table memilih dari table mana
-     * @return object       from clause
+     * @return $this       from clause
      */
     public function from($table)
     {
@@ -127,7 +128,7 @@ class QueryBuilder implements IQuery
     /**
      * where clause
      * @param  string $where condition
-     * @return object
+     * @return $this
      */
     public function where($where)
     {
@@ -139,7 +140,7 @@ class QueryBuilder implements IQuery
     /**
      * And Clause
      * @param  string $whereAnd And condition
-     * @return object
+     * @return $this
      */
     public function whereAnd($whereAnd)
     {
@@ -151,7 +152,7 @@ class QueryBuilder implements IQuery
     /**
      * Batas limit yang akan ditampilkan
      * @param  string $limit limit yang diambil
-     * @return object limit
+     * @return $this limit
      */
     public function limit($limit)
     {
@@ -163,7 +164,7 @@ class QueryBuilder implements IQuery
     /**
      * join clause
      * @param  string $join join table
-     * @return object
+     * @return $this
      */
     public function join($join)
     {
@@ -176,7 +177,7 @@ class QueryBuilder implements IQuery
      * Membuat query secara mentah, dan dieksekusi
      * @param  string $query     query yang akan dieksekusi
      * @param  string $parameter parameter dipisahkan dengan koma
-     * @return array
+     * @return array return array, di dalam array tersebut ada sebuah object class
      */
     public function RAW($query, $parameter)
     {
@@ -187,6 +188,22 @@ class QueryBuilder implements IQuery
 
 
         return $result->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    /**
+     * Fungsi untuk menampilkan tanggal kapan dibuat
+     * @param  string $norf nomer rfid yang akan ditampilan tanggal dibuat
+     * @return string       return created_at dari database
+     */
+    public function registered($norf)
+    {
+        $sql = "SELECT last_update from siswa where norf = ?";
+        $result = $this->pdo->prepare($sql);
+        $result->execute([
+        $norf
+      ]);
+
+        return $result->fetchAll(PDO::FETCH_CLASS)[0]->last_update;
     }
 
     /**
