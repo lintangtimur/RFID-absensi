@@ -1,5 +1,6 @@
 ![RFID Absensi Img](https://image.ibb.co/eE6ewG/rfid_web_absen.png "RFID Absensi")
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/7d1766b82a643c2d1e34/maintainability)](https://codeclimate.com/github/lintangtimur/RFID-absensi/maintainability)
 # RFID-absensi
 Sistem absensi mahasiswa dengan menggunakan RFID
 
