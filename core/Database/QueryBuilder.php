@@ -176,15 +176,13 @@ class QueryBuilder implements IQuery
     /**
      * Membuat query secara mentah, dan dieksekusi
      * @param  string $query     query yang akan dieksekusi
-     * @param  string $parameter parameter dipisahkan dengan koma
+     * @param  array $parameter parameter dipisahkan dengan koma
      * @return array return array, di dalam array tersebut ada sebuah object class
      */
-    public function RAW($query, $parameter)
+    public function RAW($query, array $parameter)
     {
         $result = $this->pdo->prepare($query);
-        $result->execute([
-          $parameter
-        ]);
+        $result->execute($parameter);
 
 
         return $result->fetchAll(PDO::FETCH_CLASS);
