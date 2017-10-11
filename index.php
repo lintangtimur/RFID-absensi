@@ -44,14 +44,13 @@
 				</div>
 				<div class="col-md-10">
 					<?php
-                    $cariMakulabsen = $qb->RAW("SELECT * FROM jadwal where hari = ?", "Selasa");
+                    $cariMakulabsen = $qb->RAW("SELECT * FROM jadwal where hari = ?", "$HARI[$sekarang]");
                     foreach ($cariMakulabsen as $key => $value) {
                         $mulai = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->hour;
                         $mulaiMenit = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->addminutes(15);
 
                         $akhir = Carbon::parse($value->jam_akhir, 'Asia/Jakarta')->hour;
                         $sekarang = Carbon::now('Asia/Jakarta')->hour ;
-
 
                         if ($sekarang > $mulai && $sekarang < $akhir) { //10 > 8 && 10 < 12
                             $makul = "<span class=\"badge badge-success float-md-right\">Available</span>";
@@ -83,7 +82,7 @@
 					<th><?= $i?></th>
 					<td><?= $value->makul;?></td>
 					<td><?= $value->jam_mulai;?></td>
-					<td><?= $value->jam_mulai;?></td>
+					<td><?= $value->jam_akhir;?></td>
 				</tr>
 			<?php $i++;endforeach; ?>
 			</tbody>
