@@ -14,7 +14,7 @@ if (isset($_POST['id'])) {
     $siswa = $qb->RAW(
     "SELECT nama, last_update, NOW()
     AS absen from siswa where norf = ?",
-     $id);
+     [$id]);
 
     $HARI = [
        0 => "Minggu",

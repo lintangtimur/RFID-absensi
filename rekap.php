@@ -29,12 +29,12 @@
     $jadwal = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
         FROM siswa
         INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf
-        GROUP BY makul_absen", "");
+        GROUP BY makul_absen", []);
     foreach ($jadwal as $index => $value) {
         $rekabAbsen = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
         FROM siswa
         INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf
-        AND rekap_absen.makul_absen = ?", "$value->makul_absen");
+        AND rekap_absen.makul_absen = ?", [$value->makul_absen]);
         echo "<h2 class=\"mt-4\">{$value->makul_absen}</h2>";
         $i = 1;
         $table = "<table class=\"table\">
@@ -67,7 +67,7 @@
     ?>
   </div>
   <div class="col-md-4">
-    
+
   </div>
 </div>
 </div>

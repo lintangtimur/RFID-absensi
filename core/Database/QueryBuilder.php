@@ -176,12 +176,13 @@ class QueryBuilder implements IQuery
     /**
      * Membuat query secara mentah, dan dieksekusi
      * @param  string $query     query yang akan dieksekusi
-     * @param  array|null $parameter parameter dipisahkan dengan koma
+     * @param  array $parameter parameter dipisahkan dengan koma
      * @return array return array, di dalam array tersebut ada sebuah object class
      */
-    public function RAW($query, array $parameter = null)
+    public function RAW($query, array $parameter)
     {
         $result = $this->pdo->prepare($query);
+
         $result->execute($parameter);
 
 
@@ -197,7 +198,7 @@ class QueryBuilder implements IQuery
     {
         if (is_array($result)) {
             if (array_key_exists(0, $result)) {
-                return $result[0];
+                return $result;
             }
 
             return (object)[];

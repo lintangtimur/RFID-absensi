@@ -36,7 +36,7 @@
                    6 => "Sabtu"
                  ];
             $sekarang = Carbon::now('Asia/Jakarta')->dayOfWeek;
-            $hasil = $qb->RAW("SELECT * from jadwal where hari = ?", $HARI[$sekarang]);
+            $hasil = $qb->RAW("SELECT * from jadwal where hari = ?", [$HARI[$sekarang]]);
              ?>
 			<div class="row">
 				<div class="col-md-2">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="col-md-10">
 					<?php
-                    $cariMakulabsen = $qb->RAW("SELECT * FROM jadwal where hari = ?", "$HARI[$sekarang]");
+                    $cariMakulabsen = $qb->RAW("SELECT * FROM jadwal where hari = ?", [$HARI[$sekarang]]);
                     foreach ($cariMakulabsen as $key => $value) {
                         $mulai = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->hour;
                         $mulaiMenit = Carbon::parse($value->jam_mulai, 'Asia/Jakarta')->addminutes(15);
