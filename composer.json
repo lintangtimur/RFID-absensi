@@ -1,4 +1,12 @@
 {
+  "autoload":{
+    "files" :[
+      "core/helper/function.php"
+    ],
+    "psr-4" :{
+      "StelinDB\\":"core/"
+    }
+  },
     "require": {
         "monolog/monolog": "^1.23",
         "nesbot/carbon": "^1.22"

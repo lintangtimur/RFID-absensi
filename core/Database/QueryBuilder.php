@@ -1,5 +1,9 @@
 <?php
-require "Interface/IQuery.php";
+namespace StelinDB\Database;
+
+use PDO;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 /**
 * Pembuatan Query
@@ -8,6 +12,11 @@ require "Interface/IQuery.php";
 */
 class QueryBuilder implements IQuery
 {
+    /**
+   * Logger
+   * @var Logger
+   */
+    private $logger;
     /**
    * select clause
    * @var array
@@ -62,6 +71,8 @@ class QueryBuilder implements IQuery
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->logger = new Logger('StelinDB_Database');
+        $this->logger->pushHandler(new StreamHandler('logs/stelinlog.log', Logger::DEBUG));
     }
 
     /**
@@ -73,8 +84,10 @@ class QueryBuilder implements IQuery
     {
         $result = $this->pdo->prepare("SELECT * FROM {$table}");
         $result->execute();
+        $result = $result->fetchAll(PDO::FETCH_CLASS);
+        $this->logger->info('selectAll() errorCode: '.$result->errorCode());
 
-        return $result->fetchAll(PDO::FETCH_CLASS);
+        return $result;
     }
 
     /**
@@ -97,6 +110,8 @@ class QueryBuilder implements IQuery
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->execute($parameter);
+        $this->logger->info('insert() errorCode: '.$result->errorCode());
+        $this->logger->info('insert parameter: ', $parameter);
 
         return $stmt;
     }
@@ -176,7 +191,7 @@ class QueryBuilder implements IQuery
     /**
      * Membuat query secara mentah, dan dieksekusi
      * @param  string $query     query yang akan dieksekusi
-     * @param  array $parameter parameter dipisahkan dengan koma
+     * @param  array $parameter parameter dipisahkan dengan koma [$a, $b]
      * @return array return array, di dalam array tersebut ada sebuah object class
      */
     public function RAW($query, array $parameter)
@@ -184,9 +199,10 @@ class QueryBuilder implements IQuery
         $result = $this->pdo->prepare($query);
 
         $result->execute($parameter);
+        $result = $this->checkArrayIndex($result->fetchAll(PDO::FETCH_CLASS));
+        $this->logger->info('RAW-query: '.$query, $parameter);
 
-
-        return $this->checkArrayIndex($result->fetchAll(PDO::FETCH_CLASS));
+        return $result;
     }
 
     /**

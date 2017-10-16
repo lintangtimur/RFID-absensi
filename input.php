@@ -1,12 +1,14 @@
 <?php
-$con = require "core/bootstrap.php";
+
 require "vendor/autoload.php";
+
+use StelinDB\Database\QueryBuilder;
 use Carbon\Carbon;
 
 $now = new Carbon;
 $now->setTimezone('Asia/Jakarta');
 
-$qb = new QueryBuilder($con);
+$qb = new QueryBuilder(\StelinDB\Database\Connection::Connect());
 
 if (isset($_POST['id'])) {
     $id = $_POST['id'];

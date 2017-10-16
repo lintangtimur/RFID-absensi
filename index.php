@@ -22,10 +22,11 @@
 		<div class="container">
 			<?php
             require "vendor/autoload.php";
-            $con = require "core/bootstrap.php";
+            use StelinDB\Database\Connection;
+            use StelinDB\Database\QueryBuilder;
             use Carbon\Carbon;
 
-            $qb = new QueryBuilder($con);
+            $qb = new QueryBuilder(Connection::Connect());
             $HARI = [
                    0 => "Minggu",
                    1 => "Senin",
