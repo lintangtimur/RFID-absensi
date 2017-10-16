@@ -1,4 +1,6 @@
 <?php
+namespace StelinDB\Database;
+
 /**
  * Database Interface
  */

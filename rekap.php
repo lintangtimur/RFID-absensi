@@ -21,11 +21,13 @@
       <div class="row">
         <div class="col-md-8">
     <?php
-    $con = require "core/bootstrap.php";
+
     require "vendor/autoload.php";
+
+    use StelinDB\Database\QueryBuilder;
     use Carbon\Carbon;
 
-    $qb = new QueryBuilder($con);
+    $qb = new QueryBuilder(\StelinDB\Database\Connection::Connect());
     $jadwal = $qb->RAW("SELECT siswa.nama,siswa.NIM, rekap_absen.makul_absen, rekap_absen.tanggal_absen
         FROM siswa
         INNER JOIN rekap_absen ON siswa.norf=rekap_absen.norf
