@@ -5,6 +5,8 @@ require "vendor/autoload.php";
 use StelinDB\Database\QueryBuilder;
 use Carbon\Carbon;
 
+$dotenv = new \Dotenv\Dotenv(__DIR__);
+            $dotenv->load();
 $now = new Carbon;
 $now->setTimezone('Asia/Jakarta');
 

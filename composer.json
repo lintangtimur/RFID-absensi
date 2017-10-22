@@ -9,6 +9,7 @@
   },
     "require": {
         "monolog/monolog": "^1.23",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "^1.22",
+    "vlucas/phpdotenv": "^2.4"
     }
 }

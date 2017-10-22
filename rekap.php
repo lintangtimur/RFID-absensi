@@ -23,7 +23,8 @@
     <?php
 
     require "vendor/autoload.php";
-
+    $dotenv = new \Dotenv\Dotenv(__DIR__);
+                $dotenv->load();
     use StelinDB\Database\QueryBuilder;
     use Carbon\Carbon;
 
