@@ -26,6 +26,8 @@
             use StelinDB\Database\QueryBuilder;
             use Carbon\Carbon;
 
+            $dotenv = new \Dotenv\Dotenv(__DIR__);
+                        $dotenv->load();
             $qb = new QueryBuilder(Connection::Connect());
             $HARI = [
                    0 => "Minggu",
